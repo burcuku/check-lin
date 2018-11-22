@@ -13,7 +13,7 @@ def run_tests(test_path, out_file):
             if not filename.endswith(".class"):
                 continue
 
-            class_file, _ = path.splitext(path.join(test_path, filename).replace('/', '.'))
+            class_file, _ = path.splitext(path.join(test_path, filename).replace('/', '.').replace('\\', '.'))
 
             # print("Running: %s" % (class_file,))
             call("java {0}".format(class_file), shell=True, stdout=out)

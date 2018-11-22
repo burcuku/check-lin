@@ -67,7 +67,7 @@ def process_file(stat_file, ds_stats):
 def write_history_stats(stat, name, history_stats_file):
     line = "{0}\t{1}\t{2:.2f}\t{3}\t{4:.2f}\t{5:.2f}\t{6}\t{7:.2f}\t{8:.2f}\n".format(
         name,
-        stat.get("depth", 0),
+        stat.get("files", 0),
         stat.get("ops_average", 0.0),
         stat.get("conc_ops", {}).get("max", 0),
         stat.get("conc_ops", {}).get("average", 0.0),
@@ -125,7 +125,7 @@ def stats_headers(history_stats_file, schedule_stats_file):
     with open(schedule_stats_file, 'w+') as f:
         f.write(schedule_header_line)
 
-    history_header_line = "Name\td\tops\tmax(c)\tavg(c)\tstddev(c)\tmax(cp)\tavg(cp)\tstddev(cp)\n"
+    history_header_line = "Name\thist\tops\tmax(c)\tavg(c)\tstddev(c)\tmax(cp)\tavg(cp)\tstddev(cp)\n"
     with open(history_stats_file, 'w+') as f:
         f.write(history_header_line)
 

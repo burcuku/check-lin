@@ -33,7 +33,7 @@ def write_lin_stats(stats, name, linear_stats, depth):
     lin_c = 0
     part_lin_c = 0
     for trace, o_s in stats.items():
-        tot_c += len(o_s)
+        tot_c += 1
         lin_c += 1 if o_s == [1] else 0
         part_lin_c += 1 if o_s.count(2) > 0 else 0
 

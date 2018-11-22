@@ -18,4 +18,4 @@ if __name__ == '__main__':
         print("Please specify the class under test, directory of input files, name of test files, "
               "stat dir, stat file, and the min and max depth for the hitting families.")
         sys.exit()
-    create_tests(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8])
+    create_tests(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], int(sys.argv[7]), int(sys.argv[8]))

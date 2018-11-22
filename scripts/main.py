@@ -12,13 +12,13 @@ min_depth = 1
 max_depth = 5
 
 BENCHMARKS = [
-            #("ArrayBlockingQueue", "ABQ", "java.util.concurrent.ArrayBlockingQueue<Integer>"),
-            #  ("ConcurrentHashMap", "CHM", "java.util.concurrent.ConcurrentHashMap<Integer,Integer>"),
-            #  ("ConcurrentLinkedDeque", "CLD", "java.util.concurrent.ConcurrentLinkedDequeue<Integer>"),
-              #("ConcurrentLinkedQueue", "CLQ", "java.util.concurrent.ConcurrentLinkedQueue<Integer>"),
-              #("ConcurrentSkipListMap", "CSLM", "java.util.concurrent.ConcurrentSkipListMap<Integer,Integer>"),
-              #("ConcurrentSkipListSet", "CSLS", "java.util.concurrent.ConcurrentSkipListSet<Integer>"),
-              #("LinkedBlockingDeque", "LBD", "java.util.concurrent.ConcurrentLinkedDeque<Integer>"),
+              ("ArrayBlockingQueue", "ABQ", "java.util.concurrent.ArrayBlockingQueue<Integer>"),
+              ("ConcurrentHashMap", "CHM", "java.util.concurrent.ConcurrentHashMap<Integer,Integer>"),
+              ("ConcurrentLinkedDeque", "CLD", "java.util.concurrent.ConcurrentLinkedDeque<Integer>"),
+              ("ConcurrentLinkedQueue", "CLQ", "java.util.concurrent.ConcurrentLinkedQueue<Integer>"),
+              ("ConcurrentSkipListMap", "CSLM", "java.util.concurrent.ConcurrentSkipListMap<Integer,Integer>"),
+              ("ConcurrentSkipListSet", "CSLS", "java.util.concurrent.ConcurrentSkipListSet<Integer>"),
+              ("LinkedBlockingDeque", "LBD", "java.util.concurrent.ConcurrentLinkedDeque<Integer>"),
               ("LinkedBlockingQueue", "LBQ", "java.util.concurrent.LinkedBlockingQueue<Integer>"),
               ("LinkedTransferQueue", "LTQ", "java.util.concurrent.LinkedTransferQueue<Integer>"),
               ("PriorityBlockingQueue", "PBQ", "java.util.concurrent.PriorityBlockingQueue<Integer>")
@@ -75,7 +75,7 @@ def main(selected_name):
         elapsedSec = endB - startB
         print("The linearizability tests are generated, compiled and ran for the benchmark %s \n" % benchmark)
         print("All Seconds for checking %s: %s" % (benchmark, elapsedSec))
-        print("All Minutes for checking %s: %s" % (benchmark, elapsedSec))
+        print("All Minutes for checking %s: %s" % (benchmark, elapsedSec / 60))
 
     endAll = time.time()
     elapsedSec = endAll - start_all
