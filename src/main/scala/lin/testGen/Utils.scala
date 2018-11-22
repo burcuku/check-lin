@@ -12,8 +12,6 @@ object Utils {
 
   var varNameCounter = new AtomicInteger(1)
   val collParamName = TestConfig.collParamName
-  val collParamType = TestConfig.collParamType
-  val collParamMethod = TestConfig.collParamMethod
 
   def getTestFileName(packageName: String, fileName: String): String =
     packageName.replace(".", File.separator) + File.separator + fileName + ".java"
@@ -29,7 +27,7 @@ object Utils {
   }
 
   // returns the stmts to add before the call and the arguments to add into a call
-  def intoExpression(arg: Argument): (Seq[Expression], Seq[Expression]) = arg match {
+  def intoExpression(arg: Argument, collParamType: String, collParamMethod: String): (Seq[Expression], Seq[Expression]) = arg match {
     case IntegerArgument(arg1) => (List(), List(new IntegerLiteralExpr(arg1)))
 
     case TwoIntegersArgument(arg1, arg2) => //e.g. for putAll(Map(1, 2))

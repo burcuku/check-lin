@@ -12,5 +12,6 @@ libraryDependencies += "com.github.javaparser" % "javaparser-core" % "3.6.6"
 
 
 cleanFiles += baseDirectory.value / "produced"
-cleanFiles += baseDirectory.value / "stats"
+cleanFiles += baseDirectory.value / "stat"
 cleanFiles += baseDirectory.value / "out"
+cleanFiles += baseDirectory.value / "results"

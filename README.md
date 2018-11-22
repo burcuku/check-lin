@@ -27,55 +27,36 @@ Given an execution history together with the outcomes of its operations, checks 
 
 - Scala Build Tool
 
-- Python 2.7
+- Python 3.6
+
+## Reproducing the results on the example data tests 
+
+The experimental results check the linearizability of the history files provided in ```example/histories``` folder.
+
+The following command checks the linearizanbility of all the history files for the data structures *ABQ*, *CHM*, *CLD*, *CLQ*, *CSLM*, *LBD*, *LBQ*, *LTQ* and *PBQ* in ```example/histories``` folder.
+
+```
+python scripts/main.py
+```
+
+The linearizability checking results are collected in the ```results``` folder.
+
+Alternatively, the history files for only a single data structure can be checked for linearizability by providing the shortname for the data structure:
+
+```
+python scripts/main.py ABQ
+```
+The short name for the data structure can be one of *ABQ*, *CHM*, *CLD*, *CLQ*, *CSLM*, *LBD*, *LBQ*, *LTQ* or *PBQ*.
+
+## Running custom history files
+### Creating strong *d*-hitting schedules:
+
+Construct strong *d*-hitting schedules by using the script ```scripts/tools/createTests```.
+
+This will produce .java source files in the `produced` directory. These .java files invoke strong hitting family of schedules of operations in the given history.  
+
+### Running strong *d*-hitting schedules:
+
+Compile and run the produced test classes in a directory by using the scripts ```scripts/tools/compileTests.py``` and ```scripts/tools/runTests.py```
 
 
-## Usage
-###Creating strong *d*-hitting schedules:
-
-You can construct the family of schedules for a given history file or a directory of history files. The program generates a Java class for each file, where each method runs a schedule in the family. 
-
-- The produced Java class files will be saved in `produced` directory. 
-- The statistics (e.g., the number of operations, number of schedules in the family, etc) will be recorded in `stats` directory.
-
-**Processing a single history file:**
-
-Generate a test class for a sample history file by specifying the input json file, the name for the Java class to be generated,
-the name for the stat file to be generated and the depth of d-hitting families:
-
-    sbt "run example/historyArrayBlockingQueue.json TestABQ StatABQ 2"
-    
-This will produce `TestLQ.java` inside `produced/testD2` directory.
-You can compile and run this file to check the history in `historyLinkedQueue.json` is linearizable by a *2*-hitting schedule.
-    
-**Processing a directory of history files:**
-
-You can also test linearizability of a directory of history files for a range of depths for d-hitting families by running the following scripts.
-As an example, you can decompress the `histories.zip` file in the `example` directory and generate tests for the files inside decompressed folder.
-
-    python scripts/createTests.py example/histories/ArrayBlockingQueue TestABQ StatABQ 2 3
-
-This will produce tests in the `produced` directory for each history file for each depth *d* in the range.
-
-###Running strong *d*-hitting schedules:
-
-Compile and run test classes in a directory by specifying the input directory name of test files and an output directory name for the output files
-
-    python scripts/compileTests.py produced ABQ
-    python scripts/runTests.py produced ABQ
-
-This will produce the linearizability output files in the directory `out`.
-
-### (Optional) Processing stats:
-
-You can process the statistics files (generated while processing histories and constructing strong *d*-hitting family of schedules) by using the following command:
-
-	python scripts/processStats.py stats/StatABQ
-
-## (Optional) Configuration 
-
-- Using the configuration in `test.conf`, you can provide parameters for:
-
-   - Linearizability checking tests - such as the input history file, the depth of the hitting-family of schedules, etc.
-
-   - Auto-generated test class - such as the class name, variable names, etc.

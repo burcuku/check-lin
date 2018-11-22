@@ -23,15 +23,17 @@ import lin.scheduleGen.Operation
   * @param generatedClassName The name of the generated test class
   * @param methodNamePrefix The prefix for the method names in the test class (each method corresponds to a schedule)
   */
-class TestWriter(val schedules: Seq[Seq[Operation]],
+class TestWriter(val testConfig: TestConfig,
+                 val schedules: Seq[Seq[Operation]],
                  val expectedResult: Seq[String], // result of each operation ordered by their ids
-                 val testedClassName: String = TestConfig.classUnderTest,
-                 val imports: Seq[String] = TestConfig.imports,
                  val generatedPackageName: String = TestConfig.generatedPckName,
                  val generatedClassName: String = TestConfig.generatedClassName,
                  val methodNamePrefix: String = TestConfig.testedMethodPrefix,
                  val producedFromHistoryFile: String = "Not Specified")
 {
+  val testedClassName: String = testConfig.classUnderTest
+  val imports: Seq[String] = testConfig.imports
+
   val expectedPairs: Map[Int, String] = expectedResult.indices.zip(expectedResult).toMap
   val allImports: List[String] = "java.util.Iterator" :: ("java.util.Arrays" ::  ("java.util.ArrayList" :: imports.toList)) //adds imports used by generated code
 
@@ -188,7 +190,7 @@ class TestWriter(val schedules: Seq[Seq[Operation]],
 
   private def callMethod(objectName: String, invocation: Invocation): Seq[Statement] = {
     val call = new MethodCallExpr(new NameExpr(objectName), invocation.method.name)
-    val pairForEachArg: Seq[(Seq[Expression], Seq[Expression])] = invocation.arguments.map(Utils.intoExpression)
+    val pairForEachArg: Seq[(Seq[Expression], Seq[Expression])] = invocation.arguments.map(a => Utils.intoExpression(a, testConfig.collParamType, testConfig.collParamMethod))
 
     pairForEachArg.flatMap(_._2).foreach(a => call.addArgument(a))
 

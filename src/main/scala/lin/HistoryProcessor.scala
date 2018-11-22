@@ -12,12 +12,16 @@ import lin.testGen.{TestWriter, Utils}
   * @param statFile   the name of the stats file to be generated
   * @param depth the depth of the hitting-families of schedules to be generated
   */
-class HistoryProcessor (inputFile: String = TestConfig.inputFile,
+class HistoryProcessor (classUnderTest: String = TestConfig.inputFile,
+                        inputFile: String = TestConfig.inputFile,
+                        outPckName: String = TestConfig.generatedPckName,
                         outputFile: String = TestConfig.generatedClassName,
+                        statDir: String = TestConfig.statsDirName,
                         statFile: String = TestConfig.statsFileName,
                         scheduleEnumeratorType: String = TestConfig.scheduleEnumerator,
                         depth: Int = TestConfig.depth) {
 
+  private val config = new TestConfig(classUnderTest)
   private val poset = HistoryReader.parseIntoPoset(inputFile)
   private val scheduleEnumerator = scheduleEnumeratorType.toUpperCase match {
     case "DHITTING" => new DHitting(depth, poset)
@@ -43,10 +47,10 @@ class HistoryProcessor (inputFile: String = TestConfig.inputFile,
   }
 
   private def generateTestFile(schedules: Seq[Seq[Operation]], generatedClassNameP: String = outputFile): Unit = {
-    val generated = new TestWriter(schedules,
+    val generated = new TestWriter(config, schedules,
       expectedResult = poset.result, // should map the id of the events!
       generatedClassName = generatedClassNameP,
-      generatedPackageName = TestConfig.generatedPckName.concat("D").concat(depth.toString),
+      generatedPackageName = outPckName.concat(".D").concat(depth.toString),
       producedFromHistoryFile = inputFile)
     generated.writeClass()
   }
@@ -69,10 +73,12 @@ class HistoryProcessor (inputFile: String = TestConfig.inputFile,
     stats.append("\n\n")
 
     val statsStr = stats.toString
-    Utils.writeToFile(TestConfig.statsDirName, statFile, statsStr, true)
+    Utils.writeToFile(statDir, statFile, statsStr, true)
     //println(statsStr)
   }
 
   val isLinear: Boolean = poset.concurrentOpPairs.isEmpty
   lazy val numDistinctSchedules: Int = distinctSchedules.size
+
+
 }
